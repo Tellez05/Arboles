@@ -1,30 +1,35 @@
 #pragma once 
 #include <iostream>
 using namespace std; 
+
 struct MyNodeBST{
-    int Data;
-    MyNodeBST *Left, *Right;  
-    
-    MyNodeBST(int data, MyNodeBST* left, MyNodeBST* right){
-        this->Data = data; 
-        this->Left = left; 
-        this->Right = right; 
+    int data;
+    MyNodeBST *left,
+              *right;
+    MyNodeBST(int data){
+        this->data=data;
+        this->left=this->right=nullptr;
     }
-    MyNodeBST(int data):MyNodeBST(data, nullptr, nullptr){}
 };
 
 class MyBST{
+    private:
+        int size; 
+        MyNodeBST* root; 
     public: 
-    int size; 
-    MyNodeBST* root; 
-    MyBST(); 
-    int length(); 
-    bool isEmpty(); 
-    bool search(int data);
-    bool searchRec(int data, MyNodeBST* current); 
-    bool searchRec(int data);
-    bool insert(int data); 
-    bool remove(int data); 
+        MyBST(); 
+        int length(); 
+        bool isEmpty(); 
+        bool search(int data);
+        bool insert(int data); 
+        bool remove(int data); 
+        void preorder(); 
+        void inorder(); 
+        void level(); 
+        void visit(int type);
+        int height(); 
+        void ancestors(int data);
+        int whatLevelIAmI(int data); 
 
 
 
