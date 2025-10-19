@@ -28,7 +28,8 @@ bool MyBST::search(int data){
     
     }
     return false; 
+}
+
+bool MyBST::insert(int data){
     
-
-
 }
