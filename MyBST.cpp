@@ -7,6 +7,7 @@ MyBST::MyBST(){
 int MyBST::length(){
     return this->size; 
 }
+
 bool MyBST::isEmpty(){
     return size==0; 
 }
@@ -34,12 +35,21 @@ bool MyBST::insert(int data){
                 current->left = new MyNodeBST(data);
                 return true;
             } 
+            current = current->left; 
         }else{
             if(current->right == nullptr){
                 current->right = new MyNodeBST(data);
                 return true;
             }
+            current = current->right; 
         }
     }
     return false; 
+}
+
+bool MyBST::remove(int data){
+    MyNodeBST *current = root; 
+    while(current != nullptr){
+
+    }
 }
