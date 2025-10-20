@@ -14,34 +14,47 @@ bool MyBST::isEmpty(){
 
 bool MyBST::search(int data){
     MyNodeBST *current = root; 
-    while(current != nullptr){
-        if(current->data == data){
-            return true;
-        }
-        if(data<root->data){
-            current = current->left; 
-        }else{
-            current = current->right; 
-        }
+    return search(data,current);
+}
+
+bool MyBST::search(int data, MyNodeBST *current){
+    if(current == nullptr){
+        return false;
+    }
+    if(current->data == data){
+        return true; 
+    }else if(current->data<data){
+        return search(data, current->right);
+    }else if(current->data>data){
+        return search(data,current->left);
     }
     return false; 
 }
 
 bool MyBST::insert(int data){
+    if(root == nullptr){
+        root = new MyNodeBST(data);
+        size++; 
+        return true; 
+    }
     MyNodeBST *current = root; 
     while(current != nullptr){
         if(data<current->data){
             if(current->left == nullptr){
                 current->left = new MyNodeBST(data);
+                size++;
                 return true;
             } 
             current = current->left; 
-        }else{
+        }else if(data > current->data){
             if(current->right == nullptr){
                 current->right = new MyNodeBST(data);
+                size++; 
                 return true;
             }
             current = current->right; 
+        }else{
+            return false; 
         }
     }
     return false; 
@@ -50,22 +63,25 @@ bool MyBST::insert(int data){
 bool MyBST::remove(int data){
     MyNodeBST *current = root; 
     MyNodeBST *currentatras; 
-    MyNodeBST *currentatras2; 
     int cont {0};
 
     while(current != nullptr){
-        cont = 0;
         if(current->data> data){
             currentatras = current; 
             current = current->left;
-            cont += 1;  
+            cont = 1;  
         }else if(current->data<data){
             currentatras = current; 
             current = current->right;
+            cont = 0; 
         }else{
             break;
         }
     }
+    if(current == nullptr){
+        return false; 
+    }
+
     //caso 0 hijos
     if(current->left == nullptr && current->right == nullptr){
         if(cont == 0){
@@ -75,39 +91,49 @@ bool MyBST::remove(int data){
         }
         delete current;
         return true; 
-    //Caso 1 Hijo
+    //Caso 1 Hijo (izquierdo)
     }else if (current->left != nullptr && current->right == nullptr) {
-        currentatras->left = current->left;  
+        if(cont == 1){
+            currentatras->left = current->left;  
+        }else{
+            currentatras->right = current->left; 
+        }
         delete current; 
         return true;
+    //Caso 1 Hijo (Derecho)
     }else if (current->left == nullptr && current->right != nullptr) {
-        currentatras->right = current->right;
+        if(cont == 1){
+            currentatras->left = current->right;            
+        }else{
+            currentatras->right = current->right; 
+        }
         delete current; 
         return true;
     //Caso 2 hijos
     }else{
-        current = current->left; 
-        while(current->right != nullptr){
-            currentatras2 = current; 
-            current = current->right; 
+        MyNodeBST* predPapa {current};
+        MyNodeBST* pred {current->left};
+        while(pred->right != nullptr){
+            predPapa = pred; 
+            pred = pred->right; 
         }
-        currentatras2->right = nullptr; 
-        if(cont == 0){
-            currentatras->right->data = current->data; 
+        current->data = pred->data; 
+        if(predPapa->right == pred){
+            predPapa->right = pred->left; 
         }else{
-            currentatras->left->data = current->data; 
-        }
-        delete current; 
+            predPapa->left = pred->left; 
+        }  
+        delete pred; 
         return true; 
-
     }
+    
     return false; 
 }
 
 
 
 void MyBST::preorder(){
-    MyNodeBST *current {root};
+    MyNodeBST *current = root ;
     preorder(current); 
 }
 
@@ -151,8 +177,90 @@ void MyBST::postorder(MyNodeBST *current){
     cout<<current->data<<","; 
 }
 
-void MyBST::level(){
-    MyNodeBST* array = new MyNodeBST[size];
-    MyNodeBST* current {root};
 
+void MyBST::level(){
+    MyNodeBST* current {root};
+    vector<MyNodeBST*> lista; 
+    lista.push_back(current); 
+    while(!lista.empty()){
+        current = lista[0];
+        cout<<current->data<<",";
+        lista.erase(lista.begin());
+        if(current->left != nullptr){
+            lista.push_back(current->left);
+        }
+        if(current->right != nullptr){
+            lista.push_back(current->right);
+        }
+
+    }
+}
+
+void MyBST::ancestors(int data){
+    MyNodeBST * current = root; 
+    if(search(data)){
+       while(current->data != data){
+            cout<<current->data<<","; 
+            if(current->data < data){
+                current = current->right; 
+            }else{
+                current = current->left; 
+            }
+       } 
+    } 
+    
+}
+
+void MyBST::visit(int type){
+    if(type == 1){
+        preorder(); 
+    }else if(type ==2){
+        inorder(); 
+    }else if(type==3){
+        postorder();
+    }else if(type ==4){
+        level(); 
+    }else{
+        cout<<"Error"<<endl;
+    }
+}
+
+int MyBST::whatLevelAmI(int data){
+    if(!search(data)){
+        return -1; 
+    }
+    int count {0};
+    MyNodeBST* current {root};
+    while(current != nullptr){
+        if(current->data == data){
+            return count;
+        }
+        count++; 
+        if(current->data<data){
+            current = current->right; 
+        }else{
+            current = current->left; 
+        }
+    }
+    return -1; 
+}
+
+int MyBST::height(){
+    if(isEmpty()){
+        return -1; 
+    }
+    MyNodeBST* current {root};
+    return (height(current));
+}
+int MyBST::height(MyNodeBST* current){
+    if(current == nullptr){
+        return -1; 
+    }
+    int left = height(current->left);
+    int right = height(current->right);
+    if(left <= right){
+        return right+1; 
+    }else{
+        return left+1; 
+    }
 }

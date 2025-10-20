@@ -1,6 +1,6 @@
 #pragma once 
 #include <iostream>
-
+#include <vector>
 using namespace std; 
 
 struct MyNodeBST{
@@ -22,9 +22,7 @@ class MyBST{
         void preorder(MyNodeBST* current);
         void inorder(MyNodeBST* current);
         void postorder(MyNodeBST* current);
-        //En caso de hacer alguno de los métodos recursivos y necesiten
-        //otro método que haga la recursión deben de colocarlo como privado
-        //sólo la función de preparación sería pública
+        int height(MyNodeBST* current); 
     public:
         MyBST();
         int length();
