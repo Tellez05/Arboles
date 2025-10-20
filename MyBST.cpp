@@ -1,22 +1,27 @@
+/*
+Andres Tellez Bermudez Matricula: A01640907\
+Fecha: 20/10/2025
+Tarea 3.1
+*/
 #include "MyBST.h"
-
+//O(1)
 MyBST::MyBST(){
     this->root = nullptr;   
 }
-
+//O(1)
 int MyBST::length(){
     return this->size; 
 }
-
+//O(1)
 bool MyBST::isEmpty(){
     return size == 0; 
 }
-
+//O(1)
 bool MyBST::search(int data){
     MyNodeBST *current = root; 
     return search(data,current);
 }
-
+//O(n)
 bool MyBST::search(int data, MyNodeBST *current){
     if(current == nullptr){
         return false;
@@ -30,7 +35,7 @@ bool MyBST::search(int data, MyNodeBST *current){
     }
     return false; 
 }
-
+//O(log(n))
 bool MyBST::insert(int data){
     if(root == nullptr){
         root = new MyNodeBST(data);
@@ -59,7 +64,7 @@ bool MyBST::insert(int data){
     }
     return false; 
 }
-
+//O(n)
 bool MyBST::remove(int data){
     MyNodeBST *current = root; 
     MyNodeBST *currentatras; 
@@ -131,12 +136,12 @@ bool MyBST::remove(int data){
 }
 
 
-
+//O(1)
 void MyBST::preorder(){
     MyNodeBST *current = root ;
     preorder(current); 
 }
-
+//O(n)
 void MyBST::preorder(MyNodeBST *current){
     cout<<current->data<<","; 
     if(current->left != nullptr){
@@ -145,12 +150,12 @@ void MyBST::preorder(MyNodeBST *current){
         preorder(current->right);
     }
 }
-
+//O(1)
 void MyBST::inorder(){
     MyNodeBST *current {root}; 
     inorder(current);
 }
-
+//O(n)
 void MyBST::inorder(MyNodeBST *current){
     if(current->left != nullptr){
         inorder(current->left);
@@ -161,12 +166,12 @@ void MyBST::inorder(MyNodeBST *current){
     }
 
 }
-
+//O(1)
 void MyBST::postorder(){
     MyNodeBST *current {root};
     postorder(current); 
 }
-
+//O(n)
 void MyBST::postorder(MyNodeBST *current){
     if(current->left != nullptr){
         postorder(current->left);
@@ -177,7 +182,7 @@ void MyBST::postorder(MyNodeBST *current){
     cout<<current->data<<","; 
 }
 
-
+//O(n)
 void MyBST::level(){
     MyNodeBST* current {root};
     vector<MyNodeBST*> lista; 
@@ -195,7 +200,7 @@ void MyBST::level(){
 
     }
 }
-
+//O(log(n))
 void MyBST::ancestors(int data){
     MyNodeBST * current = root; 
     if(search(data)){
@@ -210,7 +215,7 @@ void MyBST::ancestors(int data){
     } 
     
 }
-
+//O(1)
 void MyBST::visit(int type){
     if(type == 1){
         preorder(); 
@@ -224,7 +229,7 @@ void MyBST::visit(int type){
         cout<<"Error"<<endl;
     }
 }
-
+//O(log(n))
 int MyBST::whatLevelAmI(int data){
     if(!search(data)){
         return -1; 
@@ -244,7 +249,7 @@ int MyBST::whatLevelAmI(int data){
     }
     return -1; 
 }
-
+//O(1)
 int MyBST::height(){
     if(isEmpty()){
         return -1; 
@@ -252,6 +257,7 @@ int MyBST::height(){
     MyNodeBST* current {root};
     return (height(current));
 }
+//O(n)
 int MyBST::height(MyNodeBST* current){
     if(current == nullptr){
         return -1; 
