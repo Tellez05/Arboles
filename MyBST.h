@@ -11,7 +11,7 @@ struct MyNodeBST{
         this->data=data;
         this->left=this->right=nullptr;
     }
-    MyNodeBST(); 
+    MyNodeBST(){}
 };
 
 class MyBST{
